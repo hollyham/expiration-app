@@ -1,8 +1,10 @@
 package com.example.hham.expiration_app;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 
@@ -36,9 +39,18 @@ public class MainActivity extends AppCompatActivity {
         itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNames);
         lvItems.setAdapter(itemAdapters);
         setUpListViewListener();
+
+        findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                startActivity(intent);
+            }
+        });
+
     }
 
-    private void setUpListViewListener(){
+    private void setUpListViewListener() {
         lvItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
                     @Override
@@ -51,13 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void onAddItem(View v){
-        if(dateButton.getText().toString().equals("Date")){
-        }
-        else {
+    public void onAddItem(View v) {
+        if (dateButton.getText().toString().equals("Date")) {
+        } else {
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
             String itemText = etNewItem.getText().toString();
-            objectClass newObject = new objectClass (itemText, newDate, null);
+            objectClass newObject = new objectClass(itemText, newDate, null);
             items.add(newObject);
             itemAdapters.add(newObject.getName());
             etNewItem.setText("");
@@ -65,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onSelectDate(View v){
+    public void onSelectDate(View v) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         int year = calendar.get(java.util.Calendar.YEAR);
         int month = calendar.get(java.util.Calendar.MONTH);
@@ -113,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-    public ArrayList<Date>listDates () {
+    public ArrayList<Date> listDates() {
         ArrayList<Date> result = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
             objectClass temp = items.get(i);
@@ -125,15 +136,15 @@ public class MainActivity extends AppCompatActivity {
     /*
      * insert element to the right place
      */
-    private ArrayList<objectClass> insertItem (ArrayList<objectClass> items, objectClass newItem){
+    private ArrayList<objectClass> insertItem(ArrayList<objectClass> items, objectClass newItem) {
         // when newItem is the first item
-        if (items.size() == 0){
+        if (items.size() == 0) {
             items.add(newItem);
             return items;
         }
 
-        ArrayList <objectClass> result = new ArrayList<objectClass>();
-        for (int i = 0; i < items.size(); i++){
+        ArrayList<objectClass> result = new ArrayList<objectClass>();
+        for (int i = 0; i < items.size(); i++) {
 
         }
         return result;
