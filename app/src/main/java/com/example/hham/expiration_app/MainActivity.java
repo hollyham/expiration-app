@@ -21,12 +21,14 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayAdapter<String> itemAdapters;
     ListView lvItems;
+    Button dateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvItems = (ListView) findViewById(R.id.lvItems);
+        dateButton = (Button) findViewById(R.id.dateButton);
         readItems();
         itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemAdapters);
@@ -47,11 +49,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddItem(View v){
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        String itemText = etNewItem.getText().toString();
-        itemAdapters.add(itemText);
-        etNewItem.setText("");
-        writeItems();
+        if(dateButton.getText().toString().equals("Date")){
+            //System.out.println("hello");
+        }
+        else {
+            EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+            String itemText = etNewItem.getText().toString();
+            itemAdapters.add(itemText);
+            etNewItem.setText("");
+            writeItems();
+        }
     }
 
     public void onSelectDate(View v){
@@ -59,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         int year = calendar.get(java.util.Calendar.YEAR);
         int month = calendar.get(java.util.Calendar.MONTH);
         int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
-        final Button dateButton = (Button) findViewById(R.id.dateButton);
         DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
