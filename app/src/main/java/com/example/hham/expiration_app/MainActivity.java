@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +28,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<objectClass> items = new ArrayList<>();
     ArrayList<String> listNames = new ArrayList<>();
+    List<Map<String, String>> data = new ArrayList<Map<String, String>>();
     ArrayAdapter<String> itemAdapters;
+    SimpleAdapter adapter;
     ListView lvItems;
     Button dateButton;
+    Button addButton;
     Date newDate = new Date();
 
     ImageView imageView;
@@ -46,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         dateButton = (Button) findViewById(R.id.dateButton);
         //readItems();
-        itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNames);
+        //itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNames);
         lvItems.setAdapter(itemAdapters);
         setUpListViewListener();
 
@@ -58,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        adapter = new SimpleAdapter(this, data,
+                R.layout.listview_row,
+                new String[] {"title", "date"},
+                new int[] {R.id.nameID,
+                        R.id.dateID});
+        lvItems.setAdapter(adapter);
+        setUpListViewListener();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -110,14 +124,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onAddItem(View v) {
-        if (dateButton.getText().toString().equals("Date")) {
-        } else {
+        if(dateButton.getText().toString().equals("Date")){
+        }
+        else {
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
             String itemText = etNewItem.getText().toString();
-            objectClass newObject = new objectClass(itemText, newDate, null);
+            objectClass newObject = new objectClass (itemText, newDate, null);
             items.add(newObject);
-            itemAdapters.add(newObject.getName());
+            //itemAdapters.add(newObject.getName());
             etNewItem.setText("");
+            Map<String, String> datum = new HashMap<String, String>(2);
+            datum.put("title", newObject.getName());
+            Date date = newObject.getDate();
+            datum.put("date",date.getMonth() + "/" + date.getDate() + "/" + date.getYear());
+            data.add(datum);
+            dateButton.setText("Date");
+            adapter.notifyDataSetChanged();
             //writeItems();
         }
     }
