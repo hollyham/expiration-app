@@ -16,9 +16,11 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> items;
+    ArrayList<objectClass> items = new ArrayList<>();
+    ArrayList<String> listNames = new ArrayList<>();
     ArrayAdapter<String> itemAdapters;
     ListView lvItems;
     Button dateButton;
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lvItems = (ListView) findViewById(R.id.lvItems);
         dateButton = (Button) findViewById(R.id.dateButton);
-        readItems();
-        itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        //readItems();
+        itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNames);
         lvItems.setAdapter(itemAdapters);
         setUpListViewListener();
     }
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
                         items.remove(pos);
                         itemAdapters.notifyDataSetChanged();
-                        writeItems();
+                        //writeItems();
                         return true;
                     }
                 });
@@ -50,14 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddItem(View v){
         if(dateButton.getText().toString().equals("Date")){
-            //System.out.println("hello");
         }
         else {
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
             String itemText = etNewItem.getText().toString();
+            objectClass newObject = new objectClass (itemText, null, null);
+            items.add(newObject);
             itemAdapters.add(itemText);
             etNewItem.setText("");
-            writeItems();
+            //writeItems();
         }
     }
 
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /*
     private void readItems() {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
@@ -86,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
             items = new ArrayList<String>();
         }
     }
+    */
 
+    /*
     private void writeItems(){
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
@@ -96,5 +102,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    */
 
 }
