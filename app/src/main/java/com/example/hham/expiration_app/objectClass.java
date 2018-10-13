@@ -17,6 +17,16 @@ public class objectClass {
         return this.date.getYear();
     }
 
+    public void setDate(int year, int month, int day){
+        this.date.setYear(year);
+        this.date.setMonth(month);
+        this.date.setDate(day);
+    }
+
+    public Date getDate(){
+        return this.date;
+    }
+
     public int getMonth(){
         return this.date.getMonth();
     }

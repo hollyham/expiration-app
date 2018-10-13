@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> itemAdapters;
     ListView lvItems;
     Button dateButton;
+    Date newDate = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         else {
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
             String itemText = etNewItem.getText().toString();
-            objectClass newObject = new objectClass (itemText, null, null);
+            objectClass newObject = new objectClass (itemText, newDate, null);
             items.add(newObject);
-            itemAdapters.add(itemText);
+            itemAdapters.add(newObject.getName());
             etNewItem.setText("");
             //writeItems();
         }
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         int year = calendar.get(java.util.Calendar.YEAR);
         int month = calendar.get(java.util.Calendar.MONTH);
         int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+        newDate.setYear(year);
+        newDate.setMonth(month);
+        newDate.setDate(dayOfMonth);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -103,5 +108,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     */
+
+    public ArrayList<Date>listDates () {
+        ArrayList<Date> result = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            objectClass temp = items.get(i);
+            result.add(temp.getDate());
+        }
+        return result;
+    }
+
+    /*
+     * insert element to the right place
+     */
+    private ArrayList<objectClass> insertItem (ArrayList<objectClass> items, objectClass newItem){
+        // when newItem is the first item
+        if (items.size() == 0){
+            items.add(newItem);
+            return items;
+        }
+
+        ArrayList <objectClass> result = new ArrayList<objectClass>();
+        for (int i = 0; i < items.size(); i++){
+
+        }
+        return result;
+    }
 
 }
