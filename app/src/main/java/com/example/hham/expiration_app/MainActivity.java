@@ -70,15 +70,19 @@ public class MainActivity extends AppCompatActivity {
         int year = calendar.get(java.util.Calendar.YEAR);
         int month = calendar.get(java.util.Calendar.MONTH);
         int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
-        newDate.setYear(year);
-        newDate.setMonth(month);
-        newDate.setDate(dayOfMonth);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         String inputDate = month + "/" + day + "/" + year;
+
+                        // saves selected year, month, and day
+                        newDate.setYear(year);
+                        newDate.setMonth(month);
+                        newDate.setDate(day);
+
+                        // sets button text as selected date
                         dateButton.setText(inputDate);
                     }
                 }, year, month, dayOfMonth);
