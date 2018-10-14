@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Debug;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -180,11 +181,14 @@ public class MainActivity extends AppCompatActivity {
             datum.put("title", newObject.getName());
             // Gets expiration date and builds string date
             Date date = newObject.getDate();
+
             datum.put("date",date.getMonth() + "/" + date.getDate() + "/" + date.getYear());
 
             // TODO: Change so item is added in order to the list
             // Adds HashMap to List of all items
             insertItem(datum);
+
+            updateItemColors();
 
             // Reset date button and input text box
             dateButton.setText("Date");
@@ -242,8 +246,15 @@ public class MainActivity extends AppCompatActivity {
         int month = calendar.get(java.util.Calendar.MONTH);
         int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
 
-        for(int i=0; i<lvItems.getChildCount(); i++){
-
+        for(int i=0; i<lvItems.getChildCount(); i++) {
+            Map<String, String> calEntry = data.get(i);
+            int[] itemDate = parseDate(calEntry.get("date"));
+            // if day of turn red
+            if( year == itemDate[0] && month == itemDate[1] && month == itemDate[2]) {
+                lvItems.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.expiredColor));
+            }
+            // if week of
+            // else
         }
     }
 
