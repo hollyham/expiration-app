@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Asks for permisson to access camera
+     * Asks for permission to access camera
      */
     public void EnableRuntimePermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
@@ -148,11 +148,11 @@ public class MainActivity extends AppCompatActivity {
         switch (RC) {
             case RequestPermissionCode:
                 if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this,"Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    Toast.makeText(MainActivity.this,"Permission Canceled, Now your application cannot access CAMERA.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Permission Canceled, Now your application cannot access CAMERA.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -163,29 +163,42 @@ public class MainActivity extends AppCompatActivity {
      * @param v Current view
      */
     public void onAddItem(View v) {
+        // Checks if date was selected before adding item
         if(!dateButton.getText().toString().equals("Date")){
+            // Gets user input text box
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+            // Gets user's input
             String itemText = etNewItem.getText().toString();
+            // Creates new objectClass object with new item information
             objectClass newObject = new objectClass (itemText, newDate, null);
+            // Adds item to list of items
             items.add(newObject);
-            //itemAdapters.add(newObject.getName());
-            etNewItem.setText("");
+
+            // Creates a HashMap to contain item name and expiration date
             Map<String, String> datum = new HashMap<String, String>(2);
+            // Adds name to HashMap
             datum.put("title", newObject.getName());
+            // Gets expiration date and builds string date
             Date date = newObject.getDate();
             datum.put("date",date.getMonth() + "/" + date.getDate() + "/" + date.getYear());
+            // Adds HashMap to List of all items
             data.add(datum);
+
+            // Reset date button and input text box
             dateButton.setText("Date");
+            etNewItem.setText("");
+
             adapter.notifyDataSetChanged();
             //writeItems();
         }
     }
 
     /**
-     *
-     * @param v
+     * Sets default for date picker to be current date and saves selected date.
+     * @param v Current view
      */
     public void onSelectDate(View v) {
+        // Gets today's date
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         int year = calendar.get(java.util.Calendar.YEAR);
         int month = calendar.get(java.util.Calendar.MONTH);
@@ -193,11 +206,19 @@ public class MainActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
+                    /**
+                     * Saves selected date and changes button to display selected date
+                     * @param datePicker
+                     * @param year Selected year
+                     * @param month Selected month
+                     * @param day Selected day
+                     */
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        // Creates string of selected date
                         String inputDate = month + "/" + day + "/" + year;
 
-                        // saves selected year, month, and day
+                        // saves selected year, month, and day in instance variable
                         newDate.setYear(year);
                         newDate.setMonth(month);
                         newDate.setDate(day);
@@ -209,6 +230,9 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * NOT UPDATED: Reads items from todo.txt
+     */
     /*
     private void readItems() {
         File filesDir = getFilesDir();
@@ -221,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+    /**
+     * NOT UPDATED: Writes items to todo.txt
+     */
     /*
     private void writeItems(){
         File filesDir = getFilesDir();
@@ -233,30 +260,13 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-    public ArrayList<Date> listDates() {
-        ArrayList<Date> result = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            objectClass temp = items.get(i);
-            result.add(temp.getDate());
-        }
-        return result;
-    }
-
-    /*
-     * insert element to the right place
+    /**
+     * TODO: Sort HashMaps in data (a List of HashMaps) each HashMap's expiration date
+     * @return
      */
-    private ArrayList<objectClass> insertItem(ArrayList<objectClass> items, objectClass newItem) {
-        // when newItem is the first item
-        if (items.size() == 0) {
-            items.add(newItem);
-            return items;
-        }
-
-        ArrayList<objectClass> result = new ArrayList<objectClass>();
-        for (int i = 0; i < items.size(); i++) {
-
-        }
-        return result;
+    public void sortItems(){
+        List<Map<String, String>> curr = data;
+        data = curr;
     }
 
 }

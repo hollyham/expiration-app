@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Add item button -->
+    <!-- Add Item button -->
     <Button
         android:id="@+id/btnAddItem"
         android:layout_width="wrap_content"
@@ -16,6 +16,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/etNewItem"
         app:layout_constraintEnd_toEndOf="@+id/lvItems" />
 
+    <!-- Input text box -->
     <EditText
         android:id="@+id/etNewItem"
         android:layout_width="0dp"
@@ -30,6 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
+    <!-- List of items -->
     <ListView
         android:id="@+id/lvItems"
         android:layout_width="0dp"
@@ -45,7 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Select date button -->
+    <!-- Select Date button -->
     <Button
         android:id="@+id/dateButton"
         android:layout_width="wrap_content"
@@ -58,6 +60,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnAddItem"
         app:layout_constraintStart_toEndOf="@+id/etNewItem" />
 
+    <!-- Camera button -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="40dp"
