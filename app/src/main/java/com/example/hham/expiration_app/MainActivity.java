@@ -11,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,18 +34,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Main Activity class
+ */
 public class MainActivity extends AppCompatActivity {
+    // List of objectClass objects (the items added to list)
     ArrayList<objectClass> items = new ArrayList<>();
-    ArrayList<String> listNames = new ArrayList<>();
+    // List of Maps containing the name and expiration of each item
     List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+    // Adapter for items to be displayed in ListView
     ArrayAdapter<String> itemAdapters;
+    // Adapter for items to be displayed in ListView
     SimpleAdapter adapter;
+    // View displaying list of items
     ListView lvItems;
+    // Button to select date
     Button dateButton;
-    Button addButton;
+    // Selected data
     Date newDate = new Date();
-
+    // Image view (for camera)
     ImageView imageView;
+    // Permission code for camera access
     public  static final int RequestPermissionCode  = 1 ;
 
     @Override
@@ -86,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
-                        items.remove(pos);
-                        itemAdapters.notifyDataSetChanged();
+                        final Adapter currentAdapter = adapter.getAdapter();
+                        data.remove(pos);
+                        ((BaseAdapter) currentAdapter).notifyDataSetChanged();
                         //writeItems();
                         return true;
                     }
