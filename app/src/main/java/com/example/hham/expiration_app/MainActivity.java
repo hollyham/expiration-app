@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             items.add(newObject);
 
             // Creates a HashMap to contain item name and expiration date
-            Map<String, String> datum = new HashMap<String, String>(2);
+            HashMap<String, String> datum = new HashMap<String, String>(2);
             // Adds name to HashMap
             datum.put("title", newObject.getName());
             // Gets expiration date and builds string date
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
             // TODO: Change so item is added in order to the list
             // Adds HashMap to List of all items
-           //***** data.add(datum);
+            insertItem(datum);
 
             // Reset date button and input text box
             dateButton.setText("Date");
@@ -286,12 +286,15 @@ public class MainActivity extends AppCompatActivity {
     public int [] parseDate (String dateParse){
         int [] result = new int[3];
         int index = dateParse.indexOf("/");
-        result[0] = Integer.parseInt(dateParse.substring(0, index));
-        dateParse = dateParse.substring(index+1);
-        index = dateParse.indexOf("/");
+        // parse month
         result[1] = Integer.parseInt(dateParse.substring(0, index));
         dateParse = dateParse.substring(index+1);
-        result[2] = Integer.parseInt(dateParse);
+        index = dateParse.indexOf("/");
+        // parse day
+        result[2] = Integer.parseInt(dateParse.substring(0, index));
+        dateParse = dateParse.substring(index+1);
+        // parse year
+        result[0] = Integer.parseInt(dateParse);
         return result;
     }
 
@@ -301,7 +304,33 @@ public class MainActivity extends AppCompatActivity {
      * @param newItem Item (HashMap) to be inserted into the data (first value is name, second is date)
      */
     public void insertItem(HashMap<String, String> newItem){
+        int [] objDate = parseDate(newItem.get("date"));
 
+        // if list is empty
+        if (data.size() == 0) {
+            data.add(newItem);
+            return;
+        }
+
+        // create a Date object with parsed information
+        Date newDate = new Date(objDate[0], objDate[1], objDate[2]);
+
+        for (int i=0; i<data.size(); i++){
+            // create a Date object with parsed information for each element in data
+            int [] currObj = parseDate(data.get(i).get("date"));
+            Date currDate = new Date(currObj[0], currObj[1], currObj[2]);
+            int comp = newDate.compareTo(currDate);
+            // if the dates are equal, then insert new item next to it
+            if (comp == 0){
+                data.add(i, newItem);
+                return;
+            } else if (comp < 0){
+                // if is less, then insert at location and push other elements behind
+                data.add(i, newItem);
+                return;
+            }
+        }
+        data.add(newItem);
+        return;
     }
-
 }
