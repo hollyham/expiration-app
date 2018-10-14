@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     // List of Maps containing the name and expiration of each item
     List<Map<String, String>> data = new ArrayList<Map<String, String>>();
     // Adapter for items to be displayed in ListView
-    ArrayAdapter<String> itemAdapters;
-    // Adapter for items to be displayed in ListView
     SimpleAdapter adapter;
     // View displaying list of items
     ListView lvItems;
@@ -57,18 +55,24 @@ public class MainActivity extends AppCompatActivity {
     // Permission code for camera access
     public  static final int RequestPermissionCode  = 1 ;
 
+    /**
+     * Initiates program
+     * @param savedInstanceState Used to save and recover state information
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Gets ListView (item list) by id
         lvItems = (ListView) findViewById(R.id.lvItems);
+        // Gets date selection button by id
         dateButton = (Button) findViewById(R.id.dateButton);
         //readItems();
-        //itemAdapters = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNames);
-        lvItems.setAdapter(itemAdapters);
-        setUpListViewListener();
 
+        // Enables permission to access camera
         EnableRuntimePermission();
+        // Open camera upon button click
         findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,15 +80,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Creates an adapter for ListView (list of items)
         adapter = new SimpleAdapter(this, data,
                 R.layout.listview_row,
                 new String[] {"title", "date"},
                 new int[] {R.id.nameID,
                         R.id.dateID});
+        // Sets ListView to use adapter
         lvItems.setAdapter(adapter);
         setUpListViewListener();
     }
 
+    /**
+     * Set up for camera upon activity
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 7 && resultCode == RESULT_OK) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
@@ -92,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Setup for onClickListener for ListView (list of items)
+     */
     private void setUpListViewListener() {
         lvItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
@@ -106,8 +122,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Asks for permisson to access camera
+     */
     public void EnableRuntimePermission(){
-
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                 Manifest.permission.CAMERA))
         {
@@ -119,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays result of permisson request
+     * @param RC
+     * @param per
+     * @param PResult
+     */
     @Override
     public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
         switch (RC) {
@@ -134,11 +158,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Occurs after add item button is pressed
+     * @param v Current view
+     */
     public void onAddItem(View v) {
-        if(dateButton.getText().toString().equals("Date")){
-        }
-        else {
+        if(!dateButton.getText().toString().equals("Date")){
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
             String itemText = etNewItem.getText().toString();
             objectClass newObject = new objectClass (itemText, newDate, null);
@@ -156,6 +181,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param v
+     */
     public void onSelectDate(View v) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         int year = calendar.get(java.util.Calendar.YEAR);
