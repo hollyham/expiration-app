@@ -181,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
             // Gets expiration date and builds string date
             Date date = newObject.getDate();
             datum.put("date",date.getMonth() + "/" + date.getDate() + "/" + date.getYear());
+
+            // TODO: Change so item is added in order to the list
             // Adds HashMap to List of all items
             data.add(datum);
 
@@ -231,6 +233,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * TODO: Finish color changes
+     */
+    public void updateItemColors(){
+        // Gets today's date
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        int year = calendar.get(java.util.Calendar.YEAR);
+        int month = calendar.get(java.util.Calendar.MONTH);
+        int dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+
+        for(int i=0; i<lvItems.getChildCount(); i++){
+
+        }
+    }
+
+    /**
      * NOT UPDATED: Reads items from todo.txt
      */
     /*
@@ -261,12 +278,12 @@ public class MainActivity extends AppCompatActivity {
     */
 
     /**
-     * TODO: Sort HashMaps in data (a List of HashMaps) each HashMap's expiration date
-     * @return
+     * TODO: Put new item in correct location in list
+     *
+     * @param newItem Item (HashMap) to be inserted into the data (first value is name, second is date)
      */
-    public void sortItems(){
-        List<Map<String, String>> curr = data;
-        data = curr;
+    public void insertItem(HashMap<String, String> newItem){
+
     }
 
 }
