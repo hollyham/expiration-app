@@ -2,7 +2,6 @@ package com.example.hham.expiration_app;
 import android.graphics.Picture;
 import java.util.Date;
 
-
 public class objectClass {
     String name = "";
     Date date = new Date();

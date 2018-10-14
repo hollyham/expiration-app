@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
             // TODO: Change so item is added in order to the list
             // Adds HashMap to List of all items
-            data.add(datum);
+           //***** data.add(datum);
 
             // Reset date button and input text box
             dateButton.setText("Date");
@@ -276,6 +276,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     */
+
+    /**
+     * Parses the date components
+     * first element is year, followed by month and date
+     * @param dateParse; the date string to be parsed
+     *
+     */
+    public int [] parseDate (String dateParse){
+        int [] result = new int[3];
+        int index = dateParse.indexOf("/");
+        result[0] = Integer.parseInt(dateParse.substring(0, index));
+        dateParse = dateParse.substring(index+1);
+        index = dateParse.indexOf("/");
+        result[1] = Integer.parseInt(dateParse.substring(0, index));
+        dateParse = dateParse.substring(index+1);
+        result[2] = Integer.parseInt(dateParse);
+        return result;
+    }
 
     /**
      * TODO: Put new item in correct location in list
